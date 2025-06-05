@@ -9,8 +9,8 @@
 ### 目录结构要求
 - **机型配置目录**  
   统一放置于 `buildroot-external\board\` 目录下  
-  - 直接放置：`board\orangepi_CM4`  
-  - 按品牌分类：`board\orangepi\computer_model4`
+  - 直接放置，如：`board\orangepi_CM4`  
+  - 按品牌分类，如：`board\orangepi\computer_model4`
 
 - **编译配置文件**  
   所有defconfig文件请放入 `buildroot-external\config` 目录  
@@ -19,10 +19,13 @@
 - **额外软件包**  
   如需添加额外软件包，请统一放置于 `packages` 目录下，并确保一个软件包对应一个独立目录
 
+- **非指定目录文件**  
+提交的时候请一定说清楚原因
+
 ## 重要注意事项
 1. 禁止修改HAOS官方源文件及其他目录
 2. 禁止创建非规范要求的额外目录
-3. 对于存在疑问的代码，我们将与您沟通确认其作用
+3. 对于存在疑问的代码，如果提交时描述不够清楚我可能将与您沟通确认其作用
 4. 无法合理解释的代码将不予合并
 
 我们期待与您共同打造更完善的HAOS生态！
