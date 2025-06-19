@@ -1,5 +1,5 @@
-BOARD_ID=OrangePi
-BOARD_NAME="OrangePi_CM4"
+BOARD_ID=orangepi-cm4
+BOARD_NAME="Home Assistant OrangePi CM4"
 CHASSIS=embedded
 BOOTLOADER=uboot
 KERNEL_FILE=Image

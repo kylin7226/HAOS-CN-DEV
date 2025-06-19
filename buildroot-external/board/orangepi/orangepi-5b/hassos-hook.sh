@@ -5,7 +5,7 @@ function hassos_pre_image() {
     local BOOT_DATA="$(path_boot_dir)"
 
     cp "${BINARIES_DIR}/boot.scr" "${BOOT_DATA}/boot.scr"
-    cp "${BINARIES_DIR}"/*.dtb "${BOOT_DATA}/rk3566-orangepi_cm4.dtb"
+    cp "${BINARIES_DIR}"/*.dtb "${BOOT_DATA}/"
 
     cp "${BOARD_DIR}/boot-env.txt" "${BOOT_DATA}/haos-config.txt"
     cp "${BOARD_DIR}/cmdline.txt" "${BOOT_DATA}/cmdline.txt"
