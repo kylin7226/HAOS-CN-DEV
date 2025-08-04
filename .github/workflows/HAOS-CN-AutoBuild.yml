@@ -79,6 +79,7 @@ jobs:
           git clone https://github.com/home-assistant/operating-system.git -b main
           cp -r buildroot-external operating-system
           cd operating-system
+          git submodule update --init
           echo "replace key information"
           sed -i 's|version.home-assistant.io|version.hasscn.top|g' buildroot-external/package/hassio/hassio.mk
           sed -i 's|ghcr.io/home-assistant|ghcr.nju.edu.cn/ha-china|g' buildroot-external/package/hassio/dind-import-containers.sh
@@ -86,16 +87,18 @@ jobs:
           sed -i 's|checkonline.home-assistant.io|version.hasscn.top|g' buildroot-external/rootfs-overlay/etc/NetworkManager/NetworkManager.conf
           sed -i 's|time.cloudflare.com|cn.ntp.org.cn|g' buildroot-external/rootfs-overlay/etc/systemd/timesyncd.conf
           sed -i 's|green}_defconfig)|green,panther_x2,ihost}_defconfig)|' scripts/update-kernel-upstream.sh
-          if  ${{matrix.target}} == "panther_x2" ; then
+          sed -i '/^set -e$/a export FORCE_UNSAFE_CONFIGURE=1' scripts/enter.sh
+          if [ "${{matrix.target}}" == "panther_x2" ]; then
             echo 'source "$BR2_EXTERNAL_HASSOS_PATH/package/firmware_ap6236/Config.in"' >> buildroot-external/Config.in
           fi
-          if  ${{matrix.target}} == "ihost" ; then
-            echo 'source "$BR2_EXTERNAL_IHOST_PATH/package/matter/Config.in"' >> buildroot-external/Config.in
-          else
-            rm -rf buildroot-external/rootfs-overlay/data/tee
+          if [ "${{matrix.target}}" == "ihost" ]; then
+            echo 'source "$BR2_EXTERNAL_HASSOS_PATH/package/matter/Config.in"' >> buildroot-external/Config.in
+            cp -r buildroot-external/board/sonoff/rootfs-overlay/* buildroot-external/rootfs-overlay/
+            cp -r buildroot-external/board/sonoff/0001-CMD-read-string-from-fileinto-env.patch buildroot-external/patches/uboot/0001-CMD-read-string-from-fileinto-env.patch
+            ls -l buildroot-external/package/
           fi
           
-          git submodule update --init
+          
           sed -i 's|Etc/UTC|Asia/Shanghai|g' buildroot/system/Config.in
 
           echo "BR2_PACKAGE_UNZIP=y" >> buildroot-external/configs/${{matrix.target}}_defconfig 
@@ -116,11 +119,11 @@ jobs:
         shell: 'script -q -e -c "bash {0}"'
         id: build
         run: |
-          sleep $((RANDOM % 60))    
+          sleep $((RANDOM % 600))    
           cd operating-system
           max_retries=3
           count=0
-          until sudo scripts/enter.sh make -j$(($(nproc) + 1)) ${{matrix.target}}; do
+          until scripts/enter.sh make -j$(($(nproc) + 1)) ${{matrix.target}}; do
             count=$((count + 1))
             if [ $count -ge $max_retries ]; then
               echo "Build failed after $count attempts."
@@ -148,4 +151,4 @@ jobs:
           tag: ${{ env.HASSOS_VERSION }}
           overwrite: true
           file_glob: true
-          body: "这是未经测试的版本，请不要拿来当作正式系统使用，为中国地区专门加速的Home Assistant OS，不修改任何系统内的其它任何信息，所有的修改都以加速为目的。公众号：老王杂谈说，欢迎关注"
+          body: "这是一个测试版，别当正式版使用"
