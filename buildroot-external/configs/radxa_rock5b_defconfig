@@ -21,7 +21,7 @@ BR2_LINUX_KERNEL_CUSTOM_VERSION=y
 BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="6.12.33"
 BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
 BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="$(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/kernel-arm64-rockchip.config"
-BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/hassos.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/docker.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/device-support.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/device-support-wireless.config $(BR2_EXTERNAL_HASSOS_PATH)/board/radxa/rock5b/kernel.config"
+BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/hassos.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/docker.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/device-support.config $(BR2_EXTERNAL_HASSOS_PATH)/kernel/v6.12.y/device-support-wireless.config $(BR2_EXTERNAL_HASSOS_PATH)/board/radxa/rock5b/kernel-rknpu.config"
 BR2_LINUX_KERNEL_LZ4=y
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="rockchip/rk3588-rock-5b"
@@ -182,6 +182,11 @@ BR2_TARGET_LOCALTIME="Asia/Shanghai"
 # For hardware video decode and basic display functionality
 BR2_PACKAGE_LIBDRM=y
 
+# RKNPU (Rockchip Neural Processing Unit) driver support
+# Out-of-tree driver for AI acceleration on RK3588
+BR2_PACKAGE_RKNPU_DRIVER=y
+
 # Note: Mesa3D and OpenGL/EGL removed for headless environment
 # GPU still available for hardware acceleration but no desktop graphics
 # Panfrost driver enabled in kernel config for hardware video decode
+# RKNPU driver provides AI acceleration capabilities
