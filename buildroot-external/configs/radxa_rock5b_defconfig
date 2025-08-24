@@ -178,14 +178,10 @@ BR2_PACKAGE_HOST_TEMPIO=y
 BR2_PACKAGE_UDISKS2=y
 BR2_TARGET_LOCALTIME="Asia/Shanghai"
 
-# GPU and NPU userspace support
-BR2_PACKAGE_MESA3D=y
-BR2_PACKAGE_MESA3D_GALLIUM_DRIVER_PANFROST=y
-BR2_PACKAGE_MESA3D_OPENGL_EGL=y
-BR2_PACKAGE_MESA3D_OPENGL_ES=y
+# Basic GPU driver support (headless mode)
+# For hardware video decode and basic display functionality
 BR2_PACKAGE_LIBDRM=y
-BR2_PACKAGE_LIBDRM_INSTALL_TESTS=y
 
-# OpenCL support for NPU/GPU compute
-# BR2_PACKAGE_OPENCL_HEADERS=y
-# BR2_PACKAGE_CLINFO=y
+# Note: Mesa3D and OpenGL/EGL removed for headless environment
+# GPU still available for hardware acceleration but no desktop graphics
+# Panfrost driver enabled in kernel config for hardware video decode
