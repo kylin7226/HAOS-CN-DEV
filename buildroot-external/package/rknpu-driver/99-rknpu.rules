@@ -1,16 +1,20 @@
-# RKNPU device rules
-# Rockchip Neural Processing Unit device access rules
+# RKNPU device rules for Rockchip Neural Processing Unit
+# This file creates device nodes and sets permissions for RKNPU devices
 
-# RKNPU device node
-SUBSYSTEM=="misc", KERNEL=="rknpu", MODE="0666", GROUP="users"
+# Main RKNPU service device
+KERNEL=="rknpu_service", MODE="0666", GROUP="video"
 
-# Alternative device names that might be used
-SUBSYSTEM=="misc", KERNEL=="rknpu0", MODE="0666", GROUP="users"
-SUBSYSTEM=="misc", KERNEL=="rknpu1", MODE="0666", GROUP="users"
-SUBSYSTEM=="misc", KERNEL=="rknpu2", MODE="0666", GROUP="users"
+# RKNPU control device  
+KERNEL=="rknpu_ctl", MODE="0666", GROUP="video"
 
-# NPU memory device
-SUBSYSTEM=="misc", KERNEL=="npu_mm", MODE="0666", GROUP="users"
+# RKNPU memory devices
+KERNEL=="rknpu_mem*", MODE="0666", GROUP="video"
 
-# DMA buffer heap for NPU
-SUBSYSTEM=="dma_heap", KERNEL=="*", MODE="0666", GROUP="users"
+# RKNPU debug devices (if debug build)
+KERNEL=="rknpu_debug*", MODE="0644", GROUP="video"
+
+# Add RKNPU devices to video group for compatibility
+SUBSYSTEM=="rknpu", MODE="0666", GROUP="video"
+
+# Set environment variables for RKNPU runtime
+KERNEL=="rknpu_service", ENV{RKNPU_DEVICE}="1"
