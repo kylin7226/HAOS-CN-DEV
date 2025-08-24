@@ -5,7 +5,7 @@ on:
       targets:
         description: 'Targets to build (comma separated)'
         required: false
-        default: 'rpi3_64,rpi4_64,rpi5_64,ova,generic_x86_64,generic_aarch64,green,yellow,panther_x2,ihost'
+        default: 'rpi3_64,rpi4_64,rpi5_64,ova,generic_x86_64,generic_aarch64,green,yellow,panther_x2,ihost,radxa_rock5b'
 
   schedule:
     - cron: '0 18 26 * *'
@@ -26,7 +26,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             TARGETS="${{ github.event.inputs.targets }}"
           else
-            TARGETS="rpi3_64,rpi4_64,rpi5_64,ova,generic_x86_64,generic_aarch64,green,yellow,panther_x2,ihost"
+            TARGETS="rpi3_64,rpi4_64,rpi5_64,ova,generic_x86_64,generic_aarch64,green,yellow,panther_x2,ihost,radxa_rock5b"
           fi
           JSON=$(echo "$TARGETS" | jq -R -c 'split(",")')
           echo "matrix=$JSON" >> $GITHUB_OUTPUT
@@ -86,7 +86,7 @@ jobs:
           sed -i 's|ghcr.io/home-assistant|ghcr.nju.edu.cn/ha-china|g' buildroot-external/rootfs-overlay/usr/sbin/hassos-supervisor
           sed -i 's|checkonline.home-assistant.io|version.hasscn.top|g' buildroot-external/rootfs-overlay/etc/NetworkManager/NetworkManager.conf
           sed -i 's|time.cloudflare.com|cn.ntp.org.cn|g' buildroot-external/rootfs-overlay/etc/systemd/timesyncd.conf
-          sed -i 's|green}_defconfig)|green,panther_x2,ihost}_defconfig)|' scripts/update-kernel-upstream.sh
+          sed -i 's|green}_defconfig)|green,panther_x2,ihost,radxa_rock5b}_defconfig)|' scripts/update-kernel-upstream.sh
           sed -i '/^set -e$/a export FORCE_UNSAFE_CONFIGURE=1' scripts/enter.sh
           if [ "${{matrix.target}}" == "panther_x2" ]; then
             echo 'source "$BR2_EXTERNAL_HASSOS_PATH/package/firmware_ap6236/Config.in"' >> buildroot-external/Config.in

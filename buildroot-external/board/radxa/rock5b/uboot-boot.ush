@@ -1,0 +1,28 @@
+if test "${devtype}" = "mmc"; then
+    setenv devnum ${distro_bootpart}
+    setenv prefix "/${prefix}"
+else
+    setenv devnum ${devnum}
+    setenv prefix ""
+fi
+
+load ${devtype} ${devnum}:1 ${kernel_addr_r} ${prefix}Image
+load ${devtype} ${devnum}:1 ${fdt_addr_r} ${prefix}${fdtfile}
+load ${devtype} ${devnum}:1 ${ramdisk_addr_r} ${prefix}initrd.img
+
+setenv bootargs "root=/dev/mmcblk0p3 rootwait ro ${extra_bootargs}"
+
+# Load overlay files if they exist
+setenv overlays ""
+if test -e ${devtype} ${devnum}:1 ${prefix}overlays/; then
+    for overlay_file in ${overlays}; do
+        if test -e ${devtype} ${devnum}:1 ${prefix}overlays/${overlay_file}.dtbo; then
+            load ${devtype} ${devnum}:1 ${fdtoverlay_addr_r} ${prefix}overlays/${overlay_file}.dtbo
+            fdt addr ${fdt_addr_r}
+            fdt resize 65536
+            fdt apply ${fdtoverlay_addr_r}
+        fi
+    done
+fi
+
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r}
