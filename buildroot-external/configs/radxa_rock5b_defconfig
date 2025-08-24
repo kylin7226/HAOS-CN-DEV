@@ -176,8 +176,6 @@ BR2_PACKAGE_RPI_RF_MOD=y
 BR2_PACKAGE_RTL88X2BU=y
 BR2_PACKAGE_HOST_TEMPIO=y
 BR2_PACKAGE_UDISKS2=y
-BR2_TARGET_LOCALTIME="Asia/Shanghai"
-
 # Basic GPU driver support (headless mode)
 # For hardware video decode and basic display functionality
 BR2_PACKAGE_LIBDRM=y
@@ -190,3 +188,6 @@ BR2_PACKAGE_RKNPU_DRIVER=y
 # GPU still available for hardware acceleration but no desktop graphics
 # Panfrost driver enabled in kernel config for hardware video decode
 # RKNPU driver provides AI acceleration capabilities
+
+# System localization
+BR2_TARGET_LOCALTIME="Asia/Shanghai"
