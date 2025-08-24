@@ -1,0 +1,16 @@
+# RKNPU device rules
+# Rockchip Neural Processing Unit device access rules
+
+# RKNPU device node
+SUBSYSTEM=="misc", KERNEL=="rknpu", MODE="0666", GROUP="users"
+
+# Alternative device names that might be used
+SUBSYSTEM=="misc", KERNEL=="rknpu0", MODE="0666", GROUP="users"
+SUBSYSTEM=="misc", KERNEL=="rknpu1", MODE="0666", GROUP="users"
+SUBSYSTEM=="misc", KERNEL=="rknpu2", MODE="0666", GROUP="users"
+
+# NPU memory device
+SUBSYSTEM=="misc", KERNEL=="npu_mm", MODE="0666", GROUP="users"
+
+# DMA buffer heap for NPU
+SUBSYSTEM=="dma_heap", KERNEL=="*", MODE="0666", GROUP="users"

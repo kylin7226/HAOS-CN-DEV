@@ -1,0 +1,2 @@
+source "$BR2_EXTERNAL_HASSOS_PATH/package/ap6256-firmware/Config.in"
+source "$BR2_EXTERNAL_HASSOS_PATH/package/rknpu-driver/Config.in"
